@@ -43,7 +43,7 @@ venv\Scripts\activate
 source venv/bin/activate
 
 
-##2) Install dependencies
+2) Install dependencies
 pip install -r requirements.txt
 
 
@@ -51,14 +51,14 @@ If you don't have requirements.txt, install manually:
 
 pip install django djangorestframework django-cors-headers
 
-##3) Run migrations
+3) Run migrations
 python manage.py makemigrations
 python manage.py migrate
 
-##4) Create admin user
+4) Create admin user
 python manage.py createsuperuser
 
-##5) Run backend
+5) Run backend
 python manage.py runserver
 
 
