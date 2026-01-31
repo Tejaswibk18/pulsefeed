@@ -19,6 +19,8 @@ A community feed prototype with:
 ### Feed
 - Displays posts with author + like count
 
+
+
 ### Threaded Comments
 - Users can comment on a post and reply to other comments (nested threads)
 
@@ -107,3 +109,25 @@ Leaderboard (last 24h)
 GET:
 
 /api/leaderboard/
+
+✅ Notes / Engineering Decisions
+
+Nested comments are modeled using an adjacency-list (Comment.parent)
+
+Comment tree fetch avoids N+1 by loading all comments in one query and building the tree in memory
+
+Likes are protected by DB constraints + transaction.atomic() to handle concurrency correctly
+
+Leaderboard is calculated dynamically from KarmaLog rows in last 24 hours
+
+✅ Improvements for Production
+
+Add real authentication (JWT / OAuth)
+
+Add pagination for feed & comments
+
+Add write APIs for creating posts/comments via UI
+
+Add caching for leaderboard (short TTL)
+
+Add better observability (logging/metrics)
