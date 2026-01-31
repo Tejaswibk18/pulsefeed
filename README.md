@@ -37,9 +37,9 @@ A community feed prototype with:
 ### 1) Create virtualenv
 
 python -m venv venv
-# Windows:
+## Windows:
 venv\Scripts\activate
-# Mac/Linux:
+## Mac/Linux:
 source venv/bin/activate
 
 
