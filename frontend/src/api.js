@@ -1,5 +1,9 @@
 const BASE_URL = "https://pulsefeed-1-rco2.onrender.com/api";
 
+export async function fetchLatestPost() {
+  const res = await fetch(`${BASE_URL}/posts/latest/`);
+  return res.json();
+}
 
 export async function fetchPostWithComments(postId) {
   const res = await fetch(`${BASE_URL}/posts/${postId}/`);

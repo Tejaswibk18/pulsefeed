@@ -184,3 +184,32 @@ class LeaderboardAPI(APIView):
         )
 
         return Response(list(qs), status=status.HTTP_200_OK)
+
+
+class LatestPostAPI(APIView):
+    def get(self, request):
+        post = (
+            Post.objects
+            .select_related("author")
+            .annotate(like_count=Count("likes"))
+            .order_by("-created_at")
+            .first()
+        )
+
+        if not post:
+            return Response({"detail": "No posts found"}, status=status.HTTP_404_NOT_FOUND)
+
+        comments = (
+            Comment.objects
+            .filter(post=post)
+            .select_related("author")
+            .annotate(like_count=Count("likes"))
+            .order_by("created_at")
+        )
+
+        tree = build_comment_tree(list(comments))
+
+        return Response({
+            "post": PostSerializer(post).data,
+            "comments": RecursiveCommentSerializer(tree, many=True).data
+        })

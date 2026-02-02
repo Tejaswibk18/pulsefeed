@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchPostWithComments, likePost } from "./api";
+import { fetchLatestPost, likePost } from "./api";
 import Leaderboard from "./components/Leaderboard";
 import CommentTree from "./components/CommentTree";
 
@@ -8,11 +8,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("");
 
-  const postId = 1;
-
   const load = async () => {
     setLoading(true);
-    const res = await fetchPostWithComments(postId);
+    const res = await fetchLatestPost();
     setData(res);
     setLoading(false);
   };
@@ -25,6 +23,20 @@ export default function App() {
     setMsg(text);
     setTimeout(() => setMsg(""), 1500);
   };
+
+  // ✅ Handle "no posts found" gracefully (no white screen)
+  if (!loading && data?.detail === "No posts found") {
+    return (
+      <div className="min-h-screen bg-[#050814] text-white flex items-center justify-center px-6">
+        <div className="max-w-lg w-full rounded-3xl bg-[#0B1023] border border-white/10 p-6 text-center shadow-xl">
+          <h2 className="text-xl font-bold mb-2">No Posts Found</h2>
+          <p className="text-white/70 text-sm">
+            Backend has no posts yet. Add demo seed data or create a post from admin.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#050814] text-white">
@@ -74,7 +86,7 @@ export default function App() {
         <section className="lg:col-span-2 space-y-6">
           {/* Post */}
           <div className="rounded-3xl bg-[#0B1023] border border-white/10 shadow-xl p-6">
-            {loading || !data ? (
+            {loading || !data?.post ? (
               <div className="animate-pulse space-y-4">
                 <div className="h-5 w-52 bg-white/10 rounded" />
                 <div className="h-8 w-72 bg-white/10 rounded" />
@@ -134,7 +146,7 @@ export default function App() {
               <span className="text-xs text-white/60">Nested view</span>
             </div>
 
-            {loading || !data ? (
+            {loading || !data?.comments ? (
               <div className="space-y-3 animate-pulse">
                 <div className="h-20 bg-white/10 rounded-2xl" />
                 <div className="h-20 bg-white/10 rounded-2xl" />
@@ -143,8 +155,11 @@ export default function App() {
             ) : data.comments.length === 0 ? (
               <p className="text-sm text-white/70">No comments yet.</p>
             ) : (
-              <CommentTree comments={data.comments} onRefresh={load} onMessage={showMessage} />
-
+              <CommentTree
+                comments={data.comments}
+                onRefresh={load}
+                onMessage={showMessage}
+              />
             )}
           </div>
         </section>
