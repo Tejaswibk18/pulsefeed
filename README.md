@@ -131,3 +131,44 @@ Add write APIs for creating posts/comments via UI
 Add caching for leaderboard (short TTL)
 
 Add better observability (logging/metrics)
+
+---
+
+## ✅ Deployment (Hosted Links)
+
+### Backend (Render)
+✅ Live Backend URL:
+- https://pulsefeed-1-rco2.onrender.com
+
+Sample APIs:
+- Latest Post API: https://pulsefeed-1-rco2.onrender.com/api/posts/latest/
+- Leaderboard API: https://pulsefeed-1-rco2.onrender.com/api/leaderboard/
+
+### Frontend (Vercel)
+✅ Live Frontend URL:
+- https://pulsefeed-wzob3yvn8-tejaswibk18s-projects.vercel.app
+
+---
+
+## ✅ Bonus: Docker Support
+
+This project supports Docker + Docker Compose to run backend and frontend together locally.
+
+### Run using Docker
+From the project root:
+```bash
+docker compose up --build
+
+Services:
+
+Backend → http://localhost:8000
+
+Frontend → http://localhost:5173
+
+✅ Bonus: Testing
+
+A meaningful test case is included to validate that the leaderboard counts karma earned only in the last 24 hours.
+
+Run tests
+python manage.py test
+
