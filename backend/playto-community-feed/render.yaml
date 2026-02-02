@@ -3,4 +3,5 @@ services:
     name: pulsefeed-backend
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python manage.py migrate && gunicorn backend.wsgi:application
+    startCommand: python manage.py migrate && python manage.py seed_demo && gunicorn backend.wsgi:application
+
