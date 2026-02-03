@@ -1,9 +1,4 @@
-const BASE_URL = "https://pulsefeed-1-rco2.onrender.com/api";
-
-export async function fetchLatestPost() {
-  const res = await fetch(`${BASE_URL}/posts/latest/`);
-  return res.json();
-}
+const BASE_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/api";
 
 export async function fetchPostWithComments(postId) {
   const res = await fetch(`${BASE_URL}/posts/${postId}/`);
